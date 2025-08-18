@@ -12,4 +12,6 @@ public abstract class Animal implements IAnimal {
         this.maxMoveSpeed = maxMoveSpeed;
     }
 
+    abstract public AnimalType getType();
+
 }
