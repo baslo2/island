@@ -1,44 +1,39 @@
 package island;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import island.model.animals.Animal;
+import island.model.animals.AnimalType;
 import island.model.animals.Plant;
-import island.model.animals.predators.Fox;
-import island.model.animals.predators.Wolf;
+import island.utils.FixedSizeList;
 
 public class IslandNode {
 
-    private int wolvesCounter;
-    private int foxesCounter;
+    private final Map<AnimalType, List<Animal>> animals = new HashMap<>();
+    private final List<Plant> plants = new FixedSizeList<>(200);
 
-    List<Animal> animals = new ArrayList<>();
-    List<Plant> plants = new ArrayList<>();
-
-    public boolean addAnimal(Wolf wolf) {
-        if (wolvesCounter == 30) {
-            return false;
+    public IslandNode() {
+        for (var type : AnimalType.values()) {
+            animals.put(type, new FixedSizeList<>(type.getMaxCount()));
         }
-        wolvesCounter++;
-        return animals.add(wolf);
     }
 
-    public boolean addAnimal(Fox fox) {
-        if (foxesCounter == 30) {
-            return false;
-        }
-        foxesCounter++;
-        return animals.add(fox);
+    public boolean addAnimal(Animal animal) {
+        return animals.get(animal.getType()).add(animal);
     }
 
-    public void removeAnimsl(Wolf wolf) {
-        animals.remove(wolf);
-        wolvesCounter--;
+    public boolean removeAnimal(Animal animal) {
+        return animals.get(animal.getType()).remove(animal);
     }
 
-    public void removeAnimal(Fox fox) {
-        animals.remove(fox);
-        foxesCounter--;
+    public List<Animal> getAnimalsByAnimal(Animal animal) {
+        return getAnimalsByType(animal.getType());
+    }
+
+    public List<Animal> getAnimalsByType(AnimalType type) {
+        return Collections.unmodifiableList(animals.get(type));
     }
 }
