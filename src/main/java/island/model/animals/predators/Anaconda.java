@@ -4,8 +4,8 @@ import island.model.animals.AnimalType;
 
 public class Anaconda extends Predator {
 
-    public Anaconda(int x, int y) {
-        super(x, y);
+    public Anaconda() {
+        super();
     }
 
     @Override

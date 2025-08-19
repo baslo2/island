@@ -1,7 +1,7 @@
 package island;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +12,7 @@ import island.utils.FixedSizeList;
 
 public class IslandNode {
 
-    private final Map<AnimalType, List<Animal>> animals = new HashMap<>();
+    private final Map<AnimalType, List<Animal>> animals = new EnumMap<>(AnimalType.class);
     private final List<Plant> plants = new FixedSizeList<>(200);
     private final int x;
     private final int y;
@@ -25,7 +25,12 @@ public class IslandNode {
         }
     }
 
+    public IslandNode() {
+        this(0, 0);
+    }
+
     public boolean addAnimal(Animal animal) {
+
         return animals.get(animal.getType()).add(animal);
     }
 

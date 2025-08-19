@@ -8,26 +8,32 @@ public abstract class Animal implements IAnimal {
 
     private static final Random r = new Random();
 
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
 
     private final double weight;
     private final int speed;
 
     private final double needToEat;
 
-    protected Animal(int x, int y) {
-        this.x = x;
-        this.y = y;
+    protected Animal() {
         speed = getType().getSpeed();
         weight = getType().getWeight();
         needToEat = getType().getNeedToEat();
     }
 
-    abstract public AnimalType getType();
+    public abstract AnimalType getType();
+
+    public void setX(int x) {
+        this.x = x;
+    }
 
     public int getX() {
         return x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getY() {

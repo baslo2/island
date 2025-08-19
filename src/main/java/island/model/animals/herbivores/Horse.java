@@ -4,8 +4,8 @@ import island.model.animals.AnimalType;
 
 public class Horse extends Herbivore {
 
-    public Horse(int x, int y) {
-        super(x, y);
+    public Horse() {
+        super();
     }
 
     @Override

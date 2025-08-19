@@ -4,8 +4,8 @@ import island.model.animals.AnimalType;
 
 public class Duck extends Herbivore {
 
-    public Duck(int x, int y) {
-        super(x, y);
+    public Duck() {
+        super();
     }
 
     @Override
