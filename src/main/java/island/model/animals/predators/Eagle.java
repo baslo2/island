@@ -4,8 +4,8 @@ import island.model.animals.AnimalType;
 
 public class Eagle extends Predator {
 
-    public Eagle(int weight, int maxMoveSpeed) {
-        super(weight, maxMoveSpeed);
+    public Eagle() {
+        super();
     }
 
     @Override
@@ -16,12 +16,6 @@ public class Eagle extends Predator {
 
     @Override
     public void drink() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void move() {
         // TODO Auto-generated method stub
 
     }

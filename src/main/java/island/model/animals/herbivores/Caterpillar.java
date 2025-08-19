@@ -4,8 +4,8 @@ import island.model.animals.AnimalType;
 
 public class Caterpillar extends Herbivore {
 
-    public Caterpillar(int weight, int maxMoveSpeed) {
-        super(weight, maxMoveSpeed);
+    public Caterpillar() {
+        super();
     }
 
     @Override
@@ -16,12 +16,6 @@ public class Caterpillar extends Herbivore {
 
     @Override
     public void drink() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void move() {
         // TODO Auto-generated method stub
 
     }
