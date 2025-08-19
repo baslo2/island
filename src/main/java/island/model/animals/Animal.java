@@ -24,16 +24,13 @@ public abstract class Animal implements IAnimal {
 
     public abstract AnimalType getType();
 
-    public void setX(int x) {
+    public void setStartLocation(int x, int y) {
         this.x = x;
+        this.y = y;
     }
 
     public int getX() {
         return x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public int getY() {

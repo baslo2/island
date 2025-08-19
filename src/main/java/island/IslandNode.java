@@ -35,6 +35,7 @@ public class IslandNode {
     }
 
     public boolean removeAnimal(Animal animal) {
+        animal.setStartLocation(x, y);
         return animals.get(animal.getType()).remove(animal);
     }
 
