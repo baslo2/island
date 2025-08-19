@@ -4,8 +4,8 @@ import island.model.animals.AnimalType;
 
 public class Duck extends Herbivore {
 
-    public Duck(int weight, int maxMoveSpeed) {
-        super(weight, maxMoveSpeed);
+    public Duck(int x, int y) {
+        super(x, y);
     }
 
     @Override
@@ -16,12 +16,6 @@ public class Duck extends Herbivore {
 
     @Override
     public void drink() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void move() {
         // TODO Auto-generated method stub
 
     }

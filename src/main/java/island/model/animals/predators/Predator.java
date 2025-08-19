@@ -4,8 +4,8 @@ import island.model.animals.Animal;
 
 public abstract class Predator extends Animal {
 
-    Predator(int weight, int maxMoveSpeed) {
-        super(weight, maxMoveSpeed);
+    Predator(int x, int y) {
+        super(x, y);
     }
 
 }
