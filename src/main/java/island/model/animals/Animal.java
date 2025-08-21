@@ -40,14 +40,19 @@ public abstract class Animal implements IAnimal {
 
     @Override
     public void move() {
-        int[] loc = { location.getX(), location.getY() };
-        int willMove = r.nextInt(0, speed + 1);
-        for (int i = 0; i < willMove; i++) {
-            move(loc);
-        }
+        int[] loc = getNewLocation();
         var island = location.getIsland();
         var tempLoc = island.getIslandNode(loc[0], loc[1]);
         tempLoc.addAnimal(this);
+    }
+
+    protected int[] getNewLocation() {
+        int willMove = r.nextInt(0, speed + 1);
+        int[] loc = { location.getX(), location.getY() };
+        for (int i = 0; i < willMove; i++) {
+            move(loc);
+        }
+        return loc;
     }
 
     private void move(int[] loc) {

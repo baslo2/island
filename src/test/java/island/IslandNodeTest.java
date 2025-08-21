@@ -10,14 +10,14 @@ import island.model.animals.predators.Wolf;
 class IslandNodeTest {
 
     @Test
-    void testAddAnimal() {
+    void addAnimalTest() {
         IslandNode iNode = new IslandNode();
         Animal wolf = new Wolf();
         Assertions.assertEquals(true, iNode.addAnimal(wolf));
     }
 
     @Test
-    void testCheckAnimalSize() {
+    void checkAnimalSizeTest() {
         IslandNode iNode = new IslandNode();
         Animal wolf = new Wolf();
         iNode.addAnimal(wolf);
@@ -25,7 +25,7 @@ class IslandNodeTest {
     }
 
     @Test
-    void testAddAnimalAfterMaxSize() {
+    void addAnimalAfterMaxSizeTest() {
         IslandNode iNode = new IslandNode();
         for (int i = 0; i < 30; i++) {
             Animal wolf = new Wolf();
@@ -35,7 +35,7 @@ class IslandNodeTest {
     }
 
     @Test
-    void testRemoveAnimal() {
+    void removeAnimalTest() {
         IslandNode iNode = new IslandNode();
         Animal wolf = new Wolf();
         iNode.addAnimal(wolf);
