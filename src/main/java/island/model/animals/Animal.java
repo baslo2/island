@@ -1,5 +1,6 @@
 package island.model.animals;
 
+import java.util.Objects;
 import java.util.Random;
 
 import island.IslandNode;
@@ -8,6 +9,9 @@ import island.behavior.IAnimal;
 public abstract class Animal implements IAnimal {
 
     private static final Random r = new Random();
+
+    private static int globalCount = 0;
+    private final int sequence;
 
     private final double weight;
     private final int speed;
@@ -20,6 +24,8 @@ public abstract class Animal implements IAnimal {
         speed = getType().getSpeed();
         weight = getType().getWeight();
         needToEat = getType().getNeedToEat();
+        sequence = globalCount;
+        globalCount++;
     }
 
     public abstract AnimalType getType();
@@ -82,5 +88,17 @@ public abstract class Animal implements IAnimal {
 
     private int getSide() {
         return r.nextInt(0, 2);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return sequence == animal.sequence && Objects.equals(getLocation(), animal.getLocation());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sequence, location);
     }
 }

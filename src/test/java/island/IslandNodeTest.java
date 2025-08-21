@@ -27,16 +27,16 @@ class IslandNodeTest {
     @Test
     void testAddAnimalAfterMaxSize() {
         IslandNode iNode = new IslandNode();
-        Animal wolf = new Wolf();
         for (int i = 0; i < 30; i++) {
+            Animal wolf = new Wolf();
             iNode.addAnimal(wolf);
         }
-        Assertions.assertEquals(false, iNode.addAnimal(wolf));
+        Assertions.assertEquals(false, iNode.addAnimal(new Wolf()));
     }
 
     @Test
     void testRemoveAnimal() {
-        IslandNode iNode = new IslandNode(0, 0);
+        IslandNode iNode = new IslandNode();
         Animal wolf = new Wolf();
         iNode.addAnimal(wolf);
         Assertions.assertEquals(1, iNode.getAnimalsByType(AnimalType.WOLF).size());

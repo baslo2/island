@@ -1,11 +1,10 @@
 package island;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import island.model.animals.Animal;
@@ -38,7 +37,9 @@ public class IslandNode {
         if (!animals.get(animal.getType()).add(animal)) {
             return false;
         }
-        animal.getLocation().removeAnimal(animal);
+        if (animal.getLocation() != null) {
+            animal.getLocation().removeAnimal(animal);
+        }
         animal.setLocation(this);
         return true;
     }
@@ -65,4 +66,19 @@ public class IslandNode {
                 .collect(Collectors.toList());
     }
 
+    public List<Animal> getAnimalsByType(AnimalType type) {
+        return Collections.unmodifiableList(animals.get(type));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        IslandNode that = (IslandNode) o;
+        return getX() == that.getX() && getY() == that.getY();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getX(), getY());
+    }
 }
