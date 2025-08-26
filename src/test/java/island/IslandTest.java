@@ -13,6 +13,8 @@ class IslandTest {
         int animalsValue = 2;
         island.init();
         island.initAnimals(animalsValue);
-        Assertions.assertEquals(AnimalType.values().length * animalsValue, island.getAllAnimals().size());
+        int expected = AnimalType.values().length * animalsValue;
+        int actual = island.getAllAnimals().size();
+        Assertions.assertEquals(expected, actual, "Island have wrong animals size: " + actual + ", but expected: " + expected);
     }
 }
