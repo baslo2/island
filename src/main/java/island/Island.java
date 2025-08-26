@@ -11,6 +11,10 @@ import island.model.animals.AnimalType;
 
 public class Island {
 
+    private static final Random r = new Random();
+
+    private final IslandNode[][] map;
+
     public Island() {
         this(100, 20);
     }
@@ -18,10 +22,6 @@ public class Island {
     public Island(int x, int y) {
         map = new IslandNode[x][y];
     }
-
-    private static final Random r = new Random();
-
-    private final IslandNode[][] map;
 
     public void init() {
         int x = map.length;
