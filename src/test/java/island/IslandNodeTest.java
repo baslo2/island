@@ -1,5 +1,8 @@
 package island;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +45,27 @@ class IslandNodeTest {
         Assertions.assertEquals(1, iNode.getAnimalsByType(AnimalType.WOLF).size());
         iNode.removeAnimal(wolf);
         Assertions.assertEquals(0, iNode.getAnimalsByType(AnimalType.WOLF).size());
+    }
+
+    @Test
+    void reproduceTest() {
+        IslandNode iNode = new IslandNode();
+        for (int i = 0; i<3; i++) {
+            iNode.addAnimal(new Wolf());
+        }
+        iNode.reproduce(false);
+        List<Animal> reproducesAnimals = new ArrayList<>();
+        List<Animal> notReproduced = new ArrayList<>();
+        for (var animal : iNode.getAllAnimals()) {
+            if (animal.isReproduced()) {
+                reproducesAnimals.add(animal);
+            } else {
+                notReproduced.add(animal);
+            }
+
+        }
+        Assertions.assertEquals(2, reproducesAnimals.size());
+        Assertions.assertEquals(1, notReproduced.size());
     }
 
 }

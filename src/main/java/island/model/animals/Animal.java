@@ -10,15 +10,16 @@ public abstract class Animal implements IAnimal {
 
     private static final Random r = new Random();
 
-    private static int globalCount = 0;
     private final int sequence;
-
     private final double weight;
     private final int speed;
+    private final double needToEat;
+
+    private static int globalCount = 0;
+
+    private boolean isReproduced;
 
     private IslandNode location;
-
-    private final double needToEat;
 
     protected Animal() {
         speed = getType().getSpeed();
@@ -36,6 +37,14 @@ public abstract class Animal implements IAnimal {
 
     public void setLocation(IslandNode location) {
         this.location = location;
+    }
+
+    public void setReproduced(boolean isReproduced) {
+        this.isReproduced = isReproduced;
+    }
+
+    public boolean isReproduced() {
+        return isReproduced;
     }
 
     @Override
