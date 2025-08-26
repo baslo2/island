@@ -11,6 +11,10 @@ public class FixedSizeList<E> extends ArrayList<E> {
         this.maxSize = maxSize;
     }
 
+    public boolean isFull() {
+        return maxSize == size();
+    }
+
     @Override
     public boolean add(E e) {
         if (size() >= maxSize) {

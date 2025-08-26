@@ -24,6 +24,10 @@ import island.model.animals.predators.Wolf;
 
 public class AnimalFactory {
 
+    public static Animal getNewAnimal(AnimalType type) {
+        return getNewAnimals(type, 1).get(0);
+    }
+
     public static List<Animal> getNewAnimals(AnimalType type, int animalValue) {
         return switch (type) {
             case WOLF -> getAnimals(Wolf.class, animalValue);
