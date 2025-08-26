@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import island.model.animals.Animal;
+import island.model.animals.AnimalFactory;
 import island.model.animals.AnimalType;
 import island.model.animals.Plant;
 import island.utils.FixedSizeList;
@@ -18,7 +19,7 @@ public class IslandNode {
 
     private static final Random R = new Random();
 
-    private final Map<AnimalType, List<Animal>> animals = new EnumMap<>(AnimalType.class);
+    private final Map<AnimalType, FixedSizeList<Animal>> animals = new EnumMap<>(AnimalType.class);
     private final List<Plant> plants = new FixedSizeList<>(200);
     private final int x;
     private final int y;
@@ -90,19 +91,29 @@ public class IslandNode {
         int size = animalsByTypes.size();
         Animal firstAnimal;
         Animal secondAnimal;
-        int indexforSecondAnimal;
+        int indexForSecondAnimal;
+        AnimalType type = null;
         for (int i = 0; i<size; i++) {
             firstAnimal = animalsByTypes.get(i);
-            indexforSecondAnimal = needRandom ? R.nextInt(0, size+1) : i + 1;
-            if (indexforSecondAnimal >= size) {
+            if (null == type) {
+                type = firstAnimal.getType();
+            }
+            if (animals.get(type).isFull()) {
+                return;
+            }
+            indexForSecondAnimal = needRandom ? R.nextInt(0, size+1) : i + 1;
+            if (indexForSecondAnimal >= size) {
                 continue;
             }
-            secondAnimal = animalsByTypes.get(indexforSecondAnimal);
+            secondAnimal = animalsByTypes.get(indexForSecondAnimal);
             if (firstAnimal.isReproduced() || secondAnimal.isReproduced()) {
                 continue;
             }
             firstAnimal.setReproduced(true);
             secondAnimal.setReproduced(true);
+            var newAnimal = AnimalFactory.getNewAnimal(type);
+            newAnimal.setReproduced(true);
+            addAnimal(newAnimal);
         }
     }
 
