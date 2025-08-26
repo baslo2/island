@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 public class MoveTest {
 
+    private static final String ERROR_MESSAGE = "In node x: %s, y: %s, expected wolves: %s, but: %s";
+
     @Test
     void animalMoveTest() throws NoSuchMethodException {
 
@@ -20,10 +22,21 @@ public class MoveTest {
         var island = new Island();
         island.init();
         island.getIslandNode(0,0).addAnimal(wolf);
-        Assertions.assertEquals(1, island.getIslandNode(0,0).getAnimalsByType(AnimalType.WOLF).size());
-        Assertions.assertEquals(0, island.getIslandNode(1,1).getAnimalsByType(AnimalType.WOLF).size());
+
+        int actual = getAnimalsSizeInNode(island, 0, 0, AnimalType.WOLF);
+        Assertions.assertEquals(1, actual, ERROR_MESSAGE.formatted(0, 0, 1, actual));
+        actual = getAnimalsSizeInNode(island,1, 1, AnimalType.WOLF);
+        Assertions.assertEquals(0, actual, ERROR_MESSAGE.formatted(1, 1, 0, actual));
+
         wolf.move();
-        Assertions.assertEquals(0, island.getIslandNode(0,0).getAnimalsByType(AnimalType.WOLF).size());
-        Assertions.assertEquals(1, island.getIslandNode(1,1).getAnimalsByType(AnimalType.WOLF).size());
+
+        actual = getAnimalsSizeInNode(island, 0, 0, AnimalType.WOLF);
+        Assertions.assertEquals(0, actual, ERROR_MESSAGE.formatted(0, 0, 1, actual));
+        actual = getAnimalsSizeInNode(island,1, 1, AnimalType.WOLF);
+        Assertions.assertEquals(1, actual, ERROR_MESSAGE.formatted(1, 1, 0, actual));
+    }
+
+    private int getAnimalsSizeInNode(Island island, int x, int y, AnimalType type) {
+        return island.getIslandNode(x,y).getAnimalsByType(AnimalType.WOLF).size();
     }
 }
