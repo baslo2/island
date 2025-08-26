@@ -1,6 +1,5 @@
 package island;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
@@ -20,7 +19,7 @@ public class IslandNode {
     private static final Random R = new Random();
 
     private final Map<AnimalType, FixedSizeList<Animal>> animals = new EnumMap<>(AnimalType.class);
-    private final List<Plant> plants = new FixedSizeList<>(200);
+    private final FixedSizeList<Plant> plants = new FixedSizeList<>(200);
     private final int x;
     private final int y;
     private final Island island;
@@ -53,6 +52,14 @@ public class IslandNode {
         return animals.get(animal.getType()).remove(animal);
     }
 
+    public boolean addPlant(Plant plant) {
+        return plants.add(plant);
+    }
+
+    public boolean removePlant(Plant plant) {
+        return plants.remove(plant);
+    }
+
     public Island getIsland() {
         return island;
     }
@@ -75,19 +82,23 @@ public class IslandNode {
         return Collections.unmodifiableList(animals.get(type));
     }
 
-    public void reproduce(boolean needRandom) {
+    public void reproduceAnimals(boolean needRandom) {
         for (List<Animal> animalsByTypes : animals.values()) {
-            reproduce(animalsByTypes, needRandom);
+            reproduceAnimals(animalsByTypes, needRandom);
         }
     }
 
-    public void reproduce() {
+    public List<Plant> getAllPlants() {
+        return Collections.unmodifiableList(plants);
+    }
+
+    public void reproduceAnimals() {
         for (List<Animal> animalsByTypes : animals.values()) {
-            reproduce(animalsByTypes, true);
+            reproduceAnimals(animalsByTypes, true);
         }
     }
 
-    private void reproduce(List<Animal> animalsByTypes, boolean needRandom) {
+    private void reproduceAnimals(List<Animal> animalsByTypes, boolean needRandom) {
         int size = animalsByTypes.size();
         Animal firstAnimal;
         Animal secondAnimal;
@@ -114,6 +125,18 @@ public class IslandNode {
             var newAnimal = AnimalFactory.getNewAnimal(type);
             newAnimal.setReproduced(true);
             addAnimal(newAnimal);
+        }
+    }
+
+    public void reproducePlants() {
+        if (plants.isFull()) {
+            return;
+        }
+        int startSize = plants.size();
+        for (int i=0; i<startSize;i++) {
+           if(!plants.add(new Plant())) {
+               return;
+           }
         }
     }
 
