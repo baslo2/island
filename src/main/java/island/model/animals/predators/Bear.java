@@ -9,12 +9,6 @@ public class Bear extends Predator {
     }
 
     @Override
-    public void eat() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void drink() {
         // TODO Auto-generated method stub
 

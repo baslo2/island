@@ -140,6 +140,14 @@ public class IslandNode {
         }
     }
 
+    public Animal getPreyByType(AnimalType type) {
+        List<Animal> preys = animals.get(type);
+        if(preys.isEmpty()) {
+            return null;
+        }
+        return preys.get(R.nextInt(0, preys.size()));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

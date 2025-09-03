@@ -1,5 +1,9 @@
 package island.model.animals;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public enum AnimalType {
 
     WOLF(30, 50, 3, 8),
@@ -23,11 +27,79 @@ public enum AnimalType {
     private final int speed;
     private final double needToEat;
 
+    private final Map<AnimalType, Integer> eatingProbabilities = new HashMap<>();
+
     private AnimalType(int maxCount, double weight, int speed, double needToEat) {
         this.maxCount = maxCount;
         this.weight = weight;
         this.speed = speed;
         this.needToEat = needToEat;
+        initEatingProbabilities();
+    }
+
+    void initEatingProbabilities() {
+        switch (this) {
+            case WOLF:
+                eatingProbabilities.put(HORSE, 10);
+                eatingProbabilities.put(DEER, 15);
+                eatingProbabilities.put(RABBIT, 60);
+                eatingProbabilities.put(MOUSE, 80);
+                eatingProbabilities.put(GOAT, 60);
+                eatingProbabilities.put(SHEEP, 70);
+                eatingProbabilities.put(BOAR, 15);
+                eatingProbabilities.put(BUFFALO, 10);
+                eatingProbabilities.put(DUCK, 40);
+                break;
+            case ANACONDA:
+                eatingProbabilities.put(FOX, 15);
+                eatingProbabilities.put(RABBIT, 20);
+                eatingProbabilities.put(MOUSE, 40);
+                eatingProbabilities.put(DUCK, 10);
+                break;
+            case FOX:
+                eatingProbabilities.put(RABBIT, 70);
+                eatingProbabilities.put(MOUSE, 90);
+                eatingProbabilities.put(DUCK, 60);
+                eatingProbabilities.put(CATERPILLAR, 40);
+                break;
+            case BEAR:
+                eatingProbabilities.put(ANACONDA, 80);
+                eatingProbabilities.put(HORSE, 40);
+                eatingProbabilities.put(DEER, 80);
+                eatingProbabilities.put(RABBIT, 80);
+                eatingProbabilities.put(GOAT, 70);
+                eatingProbabilities.put(SHEEP, 70);
+                eatingProbabilities.put(BOAR, 50);
+                eatingProbabilities.put(BUFFALO, 20);
+                eatingProbabilities.put(DUCK, 10);
+                break;
+            case EAGLE:
+                eatingProbabilities.put(FOX, 10);
+                eatingProbabilities.put(RABBIT, 90);
+                eatingProbabilities.put(MOUSE, 90);
+                eatingProbabilities.put(DUCK, 80);
+                break;
+            case BOAR:
+                eatingProbabilities.put(MOUSE, 50);
+            case DUCK:
+                eatingProbabilities.put(CATERPILLAR, 90);
+                break;
+            case HORSE:
+            case DEER:
+            case RABBIT:
+            case MOUSE:
+            case GOAT:
+            case SHEEP:
+            case BUFFALO:
+            case CATERPILLAR:
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected AnimalType: " + this);
+        }
+    }
+
+    public Map<AnimalType, Integer> getEatingProbabilities() {
+        return Collections.unmodifiableMap(eatingProbabilities);
     }
 
     public int getMaxCount() {
