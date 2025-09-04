@@ -59,7 +59,7 @@ public class AnimalFactory {
             e1.printStackTrace();
         }
         if (null == constructor) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         constructor.setAccessible(true);
         List<Animal> l = new ArrayList<>();
@@ -69,7 +69,7 @@ public class AnimalFactory {
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
                 e.printStackTrace();
-                return Collections.EMPTY_LIST;
+                return Collections.emptyList();
             }
         }
         return l;

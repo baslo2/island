@@ -8,8 +8,8 @@ import island.model.animals.Plant;
 
 public abstract class Herbivore extends Animal {
     @Override
-    protected void eat(int index, List<AnimalType> canEat) {
-        var hasPlants = 0 != location.getAllPlants().size();
+    protected void eat(List<AnimalType> canEat) {
+        var hasPlants = !location.getAllPlants().isEmpty();
         if (hasPlants && canEat.isEmpty()) {
             location.removePlant();
             needToEat -= Plant.WEIGHT;
@@ -22,7 +22,7 @@ public abstract class Herbivore extends Animal {
             return;
         }
 
-        super.eat(index, canEat);
+        super.eat(canEat);
     }
 
     protected boolean getChanceToEatPlant() {

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import island.model.animals.Animal;
 import island.model.animals.AnimalFactory;
@@ -75,7 +74,7 @@ public class IslandNode {
     public List<Animal> getAllAnimals() {
         return animals.values().stream()
                 .flatMap(List::stream)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Animal> getAnimalsByType(AnimalType type) {
@@ -104,7 +103,7 @@ public class IslandNode {
         Animal secondAnimal;
         int indexForSecondAnimal;
         AnimalType type = null;
-        for (int i = 0; i<size; i++) {
+        for (int i = 0; i < size; i++) {
             firstAnimal = animalsByTypes.get(i);
             if (null == type) {
                 type = firstAnimal.getType();
@@ -112,7 +111,7 @@ public class IslandNode {
             if (animals.get(type).isFull()) {
                 return;
             }
-            indexForSecondAnimal = needRandom ? R.nextInt(0, size+1) : i + 1;
+            indexForSecondAnimal = needRandom ? R.nextInt(0, size + 1) : i + 1;
             if (indexForSecondAnimal >= size) {
                 continue;
             }
@@ -133,16 +132,16 @@ public class IslandNode {
             return;
         }
         int startSize = plants.size();
-        for (int i=0; i<startSize;i++) {
-           if(!plants.add(new Plant())) {
-               return;
-           }
+        for (int i = 0; i < startSize; i++) {
+            if (!plants.add(new Plant())) {
+                return;
+            }
         }
     }
 
     public Animal getPreyByType(AnimalType type) {
         List<Animal> preys = animals.get(type);
-        if(preys.isEmpty()) {
+        if (preys.isEmpty()) {
             return null;
         }
         return preys.get(R.nextInt(0, preys.size()));
@@ -150,8 +149,9 @@ public class IslandNode {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        IslandNode that = (IslandNode) o;
+        if (!(o instanceof IslandNode that)) {
+            return false;
+        }
         return getX() == that.getX() && getY() == that.getY();
     }
 
