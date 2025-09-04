@@ -1,7 +1,9 @@
 package island.model.animals;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum AnimalType {
@@ -34,68 +36,67 @@ public enum AnimalType {
         this.weight = weight;
         this.speed = speed;
         this.needToEat = needToEat;
+    }
+
+    static {
         initEatingProbabilities();
     }
 
-    void initEatingProbabilities() {
-        switch (this) {
-            case WOLF:
-                eatingProbabilities.put(HORSE, 10);
-                eatingProbabilities.put(DEER, 15);
-                eatingProbabilities.put(RABBIT, 60);
-                eatingProbabilities.put(MOUSE, 80);
-                eatingProbabilities.put(GOAT, 60);
-                eatingProbabilities.put(SHEEP, 70);
-                eatingProbabilities.put(BOAR, 15);
-                eatingProbabilities.put(BUFFALO, 10);
-                eatingProbabilities.put(DUCK, 40);
-                break;
-            case ANACONDA:
-                eatingProbabilities.put(FOX, 15);
-                eatingProbabilities.put(RABBIT, 20);
-                eatingProbabilities.put(MOUSE, 40);
-                eatingProbabilities.put(DUCK, 10);
-                break;
-            case FOX:
-                eatingProbabilities.put(RABBIT, 70);
-                eatingProbabilities.put(MOUSE, 90);
-                eatingProbabilities.put(DUCK, 60);
-                eatingProbabilities.put(CATERPILLAR, 40);
-                break;
-            case BEAR:
-                eatingProbabilities.put(ANACONDA, 80);
-                eatingProbabilities.put(HORSE, 40);
-                eatingProbabilities.put(DEER, 80);
-                eatingProbabilities.put(RABBIT, 80);
-                eatingProbabilities.put(GOAT, 70);
-                eatingProbabilities.put(SHEEP, 70);
-                eatingProbabilities.put(BOAR, 50);
-                eatingProbabilities.put(BUFFALO, 20);
-                eatingProbabilities.put(DUCK, 10);
-                break;
-            case EAGLE:
-                eatingProbabilities.put(FOX, 10);
-                eatingProbabilities.put(RABBIT, 90);
-                eatingProbabilities.put(MOUSE, 90);
-                eatingProbabilities.put(DUCK, 80);
-                break;
-            case BOAR:
-                eatingProbabilities.put(MOUSE, 50);
-            case DUCK:
-                eatingProbabilities.put(CATERPILLAR, 90);
-                break;
-            case HORSE:
-            case DEER:
-            case RABBIT:
-            case MOUSE:
-            case GOAT:
-            case SHEEP:
-            case BUFFALO:
-            case CATERPILLAR:
-                break;
-            default:
-                throw new IllegalArgumentException("Unexpected AnimalType: " + this);
+    private static void initEatingProbabilities() {
+        WOLF.eatingProbabilities.put(HORSE, 10);
+        WOLF.eatingProbabilities.put(DEER, 15);
+        WOLF.eatingProbabilities.put(RABBIT, 60);
+        WOLF.eatingProbabilities.put(MOUSE, 80);
+        WOLF.eatingProbabilities.put(GOAT, 60);
+        WOLF.eatingProbabilities.put(SHEEP, 70);
+        WOLF.eatingProbabilities.put(BOAR, 15);
+        WOLF.eatingProbabilities.put(BUFFALO, 10);
+        WOLF.eatingProbabilities.put(DUCK, 40);
+
+        ANACONDA.eatingProbabilities.put(FOX, 15);
+        ANACONDA.eatingProbabilities.put(RABBIT, 20);
+        ANACONDA.eatingProbabilities.put(MOUSE, 40);
+        ANACONDA.eatingProbabilities.put(DUCK, 10);
+
+        FOX.eatingProbabilities.put(RABBIT, 70);
+        FOX.eatingProbabilities.put(MOUSE, 90);
+        FOX.eatingProbabilities.put(DUCK, 60);
+        FOX.eatingProbabilities.put(CATERPILLAR, 40);
+
+        BEAR.eatingProbabilities.put(ANACONDA, 80);
+        BEAR.eatingProbabilities.put(HORSE, 40);
+        BEAR.eatingProbabilities.put(DEER, 80);
+        BEAR.eatingProbabilities.put(RABBIT, 80);
+        BEAR.eatingProbabilities.put(GOAT, 70);
+        BEAR.eatingProbabilities.put(SHEEP, 70);
+        BEAR.eatingProbabilities.put(BOAR, 50);
+        BEAR.eatingProbabilities.put(BUFFALO, 20);
+        BEAR.eatingProbabilities.put(DUCK, 10);
+
+        EAGLE.eatingProbabilities.put(FOX, 10);
+        EAGLE.eatingProbabilities.put(RABBIT, 90);
+        EAGLE.eatingProbabilities.put(MOUSE, 90);
+        EAGLE.eatingProbabilities.put(DUCK, 80);
+
+        BOAR.eatingProbabilities.put(MOUSE, 50);
+        BOAR.eatingProbabilities.put(CATERPILLAR, 90);
+
+        DUCK.eatingProbabilities.put(CATERPILLAR, 90);
+
+        checkAllTypesInitEatingProbabilities();
+    }
+
+    private static void checkAllTypesInitEatingProbabilities() {
+        List<AnimalType> validTypes = Arrays.asList(WOLF, ANACONDA, BEAR, BOAR, BUFFALO, CATERPILLAR, DEER, DUCK, EAGLE,
+                FOX, GOAT, HORSE, MOUSE, RABBIT, SHEEP);
+        for (var e : AnimalType.values()) {
+            if (!validTypes.contains(e)) {
+                throw new IllegalArgumentException(
+                        "Added new AnimalType, and didn't init eatingProbabilities or didn't add new type to validTypes. new type is:"
+                                + e);
+            }
         }
+
     }
 
     public Map<AnimalType, Integer> getEatingProbabilities() {
