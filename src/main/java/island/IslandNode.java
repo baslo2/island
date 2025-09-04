@@ -149,10 +149,9 @@ public class IslandNode {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof IslandNode that)) {
             return false;
         }
-        IslandNode that = (IslandNode) o;
         return getX() == that.getX() && getY() == that.getY();
     }
 

@@ -147,10 +147,9 @@ public abstract class Animal implements IAnimal {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Animal animal)) {
             return false;
         }
-        Animal animal = (Animal) o;
         return sequence == animal.sequence && Objects.equals(getLocation(), animal.getLocation());
     }
 
