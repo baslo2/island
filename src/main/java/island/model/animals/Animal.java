@@ -14,8 +14,6 @@ public abstract class Animal implements IAnimal {
     protected static final Random r = new Random();
 
     private final int sequence;
-    private final double weight;
-    private final int speed;
     protected double needToEat;
 
     private static int globalCount = 0;
@@ -25,8 +23,6 @@ public abstract class Animal implements IAnimal {
     protected IslandNode location;
 
     protected Animal() {
-        speed = getType().getSpeed();
-        weight = getType().getWeight();
         needToEat = getType().getNeedToEat();
         sequence = globalCount;
         globalCount++;
@@ -35,7 +31,7 @@ public abstract class Animal implements IAnimal {
     public abstract AnimalType getType();
 
     public IslandNode getLocation() {
-        return  location;
+        return location;
     }
 
     public void setLocation(IslandNode location) {
@@ -50,6 +46,11 @@ public abstract class Animal implements IAnimal {
         return isReproduced;
     }
 
+    public void resetVariable() {
+        isReproduced = false;
+        needToEat = getType().getNeedToEat();
+    }
+
     @Override
     public void move() {
         int[] loc = getNewLocation();
@@ -59,7 +60,7 @@ public abstract class Animal implements IAnimal {
     }
 
     protected int[] getNewLocation() {
-        int willMove = r.nextInt(0, speed + 1);
+        int willMove = r.nextInt(0, getType().getSpeed() + 1);
         int[] loc = { location.getX(), location.getY() };
         for (int i = 0; i < willMove; i++) {
             move(loc);
@@ -114,11 +115,10 @@ public abstract class Animal implements IAnimal {
         getType().getEatingProbabilities().entrySet().stream()
                 .filter(e -> (random - e.getValue()) >= 0)
                 .forEach(e -> preys.add(e.getKey()));
-        int index = 0;
         while (needToEat > 0) {
             double stratNeedToEat = needToEat;
             int startPreysSize = preys.size();
-            eat(index, preys);
+            eat(preys);
             if (stratNeedToEat == needToEat && 0 == startPreysSize) {
                 location.removeAnimal(this);
                 break;
@@ -130,13 +130,12 @@ public abstract class Animal implements IAnimal {
         return ThreadLocalRandom.current().nextInt(0, 101);
     }
 
-    protected void eat(int index, List<AnimalType> canEat) {
+    protected void eat(List<AnimalType> canEat) {
         int bound = canEat.size();
         if (0 == bound) {
             return;
         }
-        index = r.nextInt(0, bound);
-        AnimalType preyType = canEat.get(index);
+        AnimalType preyType = canEat.get(r.nextInt(0, bound));
         Animal prey = location.getPreyByType(preyType);
         if (null == prey) {
             canEat.remove(preyType);
@@ -148,7 +147,9 @@ public abstract class Animal implements IAnimal {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Animal animal = (Animal) o;
         return sequence == animal.sequence && Objects.equals(getLocation(), animal.getLocation());
     }

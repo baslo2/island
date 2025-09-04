@@ -1,7 +1,7 @@
 package island;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -56,8 +56,8 @@ public class Island {
 
         while (!animals.isEmpty()) {
             var animal = animals.pop();
-            // TODO refactor me
-            while (!addAnimalInRandomNode(animal)) {
+            if (!addAnimalInRandomNode(animal)) {
+                break;
             }
         }
     }
@@ -87,12 +87,12 @@ public class Island {
     }
 
     public Map<AnimalType, List<Animal>> getAllAnimalsInMap() {
-        Map<AnimalType, List<Animal>> animals = new HashMap<>();
+        Map<AnimalType, List<Animal>> animals = new EnumMap<>(AnimalType.class);
         int x = map.length;
         int y = map[0].length;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                for(var e : AnimalType.values()) {
+                for (var e : AnimalType.values()) {
                     animals.putIfAbsent(e, map[i][j].getAnimalsByType(e));
                 }
             }
@@ -110,5 +110,9 @@ public class Island {
             }
         }
         return plants;
+    }
+
+    public void newTack() {
+        getAllAnimals().stream().forEach(Animal::resetVariable);
     }
 }
