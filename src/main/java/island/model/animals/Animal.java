@@ -109,19 +109,33 @@ public abstract class Animal implements IAnimal {
 
     @Override
     public void eat() {
-        int random = ThreadLocalRandom.current().nextInt(0, 101);
-        List<AnimalType> canEat = new ArrayList<>();
+        int random = getChanceToEat();
+        List<AnimalType> preys = new ArrayList<>();
         getType().getEatingProbabilities().entrySet().stream()
-                .filter(e -> (random - e.getValue()) <= 0)
-                .forEach(e -> canEat.add(e.getKey()));
+                .filter(e -> (random - e.getValue()) >= 0)
+                .forEach(e -> preys.add(e.getKey()));
         int index = 0;
         while (needToEat > 0) {
-            eat(index, canEat);
+            double stratNeedToEat = needToEat;
+            int startPreysSize = preys.size();
+            eat(index, preys);
+            if (stratNeedToEat == needToEat && 0 == startPreysSize) {
+                location.removeAnimal(this);
+                break;
+            }
         }
     }
 
+    protected int getChanceToEat() {
+        return ThreadLocalRandom.current().nextInt(0, 101);
+    }
+
     protected void eat(int index, List<AnimalType> canEat) {
-        index = r.nextInt(0, canEat.size() + 1);
+        int bound = canEat.size();
+        if (0 == bound) {
+            return;
+        }
+        index = r.nextInt(0, bound);
         AnimalType preyType = canEat.get(index);
         Animal prey = location.getPreyByType(preyType);
         if (null == prey) {

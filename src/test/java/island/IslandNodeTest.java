@@ -92,7 +92,7 @@ class IslandNodeTest {
         int actual = iNode.getAllPlants().size();
         Assertions.assertEquals(1, iNode.getAllPlants().size(), "After added plants expected: 1, but: %s".formatted(actual));
 
-        iNode.removePlant(plant);
+        iNode.removePlant();
         actual = iNode.getAllPlants().size();
         Assertions.assertEquals(0, actual, "After remove plants expected: 0, but: %s".formatted(actual));
     }

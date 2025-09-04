@@ -56,8 +56,8 @@ public class IslandNode {
         return plants.add(plant);
     }
 
-    public boolean removePlant(Plant plant) {
-        return plants.remove(plant);
+    public Plant removePlant() {
+        return plants.remove(0);
     }
 
     public Island getIsland() {
