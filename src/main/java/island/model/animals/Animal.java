@@ -1,25 +1,28 @@
 package island.model.animals;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import island.IslandNode;
 import island.behavior.IAnimal;
 
 public abstract class Animal implements IAnimal {
 
-    private static final Random r = new Random();
+    protected static final Random r = new Random();
 
     private final int sequence;
     private final double weight;
     private final int speed;
-    private final double needToEat;
+    protected double needToEat;
 
     private static int globalCount = 0;
 
     private boolean isReproduced;
 
-    private IslandNode location;
+    protected IslandNode location;
 
     protected Animal() {
         speed = getType().getSpeed();
@@ -102,6 +105,45 @@ public abstract class Animal implements IAnimal {
 
     private int getSide() {
         return r.nextInt(0, 2);
+    }
+
+    @Override
+    public void eat() {
+        int random = getChanceToEat();
+        List<AnimalType> preys = new ArrayList<>();
+        getType().getEatingProbabilities().entrySet().stream()
+                .filter(e -> (random - e.getValue()) >= 0)
+                .forEach(e -> preys.add(e.getKey()));
+        int index = 0;
+        while (needToEat > 0) {
+            double stratNeedToEat = needToEat;
+            int startPreysSize = preys.size();
+            eat(index, preys);
+            if (stratNeedToEat == needToEat && 0 == startPreysSize) {
+                location.removeAnimal(this);
+                break;
+            }
+        }
+    }
+
+    protected int getChanceToEat() {
+        return ThreadLocalRandom.current().nextInt(0, 101);
+    }
+
+    protected void eat(int index, List<AnimalType> canEat) {
+        int bound = canEat.size();
+        if (0 == bound) {
+            return;
+        }
+        index = r.nextInt(0, bound);
+        AnimalType preyType = canEat.get(index);
+        Animal prey = location.getPreyByType(preyType);
+        if (null == prey) {
+            canEat.remove(preyType);
+            return;
+        }
+        needToEat -= preyType.getWeight();
+        location.removeAnimal(prey);
     }
 
     @Override

@@ -56,8 +56,8 @@ public class IslandNode {
         return plants.add(plant);
     }
 
-    public boolean removePlant(Plant plant) {
-        return plants.remove(plant);
+    public Plant removePlant() {
+        return plants.remove(0);
     }
 
     public Island getIsland() {
@@ -138,6 +138,14 @@ public class IslandNode {
                return;
            }
         }
+    }
+
+    public Animal getPreyByType(AnimalType type) {
+        List<Animal> preys = animals.get(type);
+        if(preys.isEmpty()) {
+            return null;
+        }
+        return preys.get(R.nextInt(0, preys.size()));
     }
 
     @Override

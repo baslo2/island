@@ -4,7 +4,7 @@ import island.behavior.IPlant;
 
 public class Plant implements IPlant {
 
-    private static final int WEIGHT = 1;
+    public static final int WEIGHT = 1;
 
     @Override
     public void eat() {
