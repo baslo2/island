@@ -1,13 +1,16 @@
 package island;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import island.model.animals.Animal;
 import island.model.animals.AnimalFactory;
 import island.model.animals.AnimalType;
+import island.model.animals.Plant;
 
 public class Island {
 
@@ -81,5 +84,31 @@ public class Island {
             }
         }
         return animals;
+    }
+
+    public Map<AnimalType, List<Animal>> getAllAnimalsInMap() {
+        Map<AnimalType, List<Animal>> animals = new HashMap<>();
+        int x = map.length;
+        int y = map[0].length;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                for(var e : AnimalType.values()) {
+                    animals.putIfAbsent(e, map[i][j].getAnimalsByType(e));
+                }
+            }
+        }
+        return animals;
+    }
+
+    public List<Plant> getAllPlants() {
+        List<Plant> plants = new ArrayList<>();
+        int x = map.length;
+        int y = map[0].length;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                plants.addAll(map[i][j].getAllPlants());
+            }
+        }
+        return plants;
     }
 }
