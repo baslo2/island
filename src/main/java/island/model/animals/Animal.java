@@ -17,6 +17,7 @@ public abstract class Animal implements IAnimal {
     protected double needToEat;
 
     private static int globalCount = 0;
+    private boolean isAlive = true;
 
     private boolean isReproduced;
 
@@ -38,7 +39,7 @@ public abstract class Animal implements IAnimal {
         this.location = location;
     }
 
-    public void setReproduced(boolean isReproduced) {
+    public synchronized void setReproduced(boolean isReproduced) {
         this.isReproduced = isReproduced;
     }
 
@@ -110,6 +111,12 @@ public abstract class Animal implements IAnimal {
 
     @Override
     public void eat() {
+        if (!isAlive) {
+            return;
+        }
+        if (location == null) {
+            System.err.println(">>>location is null");
+        }
         int random = getChanceToEat();
         List<AnimalType> preys = new ArrayList<>();
         getType().getEatingProbabilities().entrySet().stream()
@@ -137,11 +144,12 @@ public abstract class Animal implements IAnimal {
         }
         AnimalType preyType = canEat.get(r.nextInt(0, bound));
         Animal prey = location.getPreyByType(preyType);
-        if (null == prey) {
+        if (null == prey || !prey.isAlive) {
             canEat.remove(preyType);
             return;
         }
         needToEat -= preyType.getWeight();
+        prey.isAlive = false;
         location.removeAnimal(prey);
     }
 

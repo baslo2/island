@@ -36,7 +36,7 @@ public class IslandNode {
         this(0, 0, null);
     }
 
-    public boolean addAnimal(Animal animal) {
+    public synchronized boolean addAnimal(Animal animal) {
         if (!animals.get(animal.getType()).add(animal)) {
             return false;
         }
@@ -47,15 +47,19 @@ public class IslandNode {
         return true;
     }
 
-    public boolean removeAnimal(Animal animal) {
+    public void addAllAnimals(FixedSizeList<Animal> animals, AnimalType type) {
+        animals.stream().forEach(this::addAnimal);
+    }
+
+    public synchronized boolean removeAnimal(Animal animal) {
         return animals.get(animal.getType()).remove(animal);
     }
 
-    public boolean addPlant(Plant plant) {
+    public synchronized boolean addPlant(Plant plant) {
         return plants.add(plant);
     }
 
-    public Plant removePlant() {
+    public synchronized Plant removePlant() {
         return plants.remove(0);
     }
 
@@ -81,7 +85,7 @@ public class IslandNode {
         return Collections.unmodifiableList(animals.get(type));
     }
 
-    public void reproduceAnimals(boolean needRandom) {
+    public synchronized void reproduceAnimals(boolean needRandom) {
         for (List<Animal> animalsByTypes : animals.values()) {
             reproduceAnimals(animalsByTypes, needRandom);
         }
@@ -127,7 +131,7 @@ public class IslandNode {
         }
     }
 
-    public void reproducePlants() {
+    public synchronized void reproducePlants() {
         if (plants.isFull()) {
             return;
         }
@@ -139,7 +143,7 @@ public class IslandNode {
         }
     }
 
-    public Animal getPreyByType(AnimalType type) {
+    public synchronized Animal getPreyByType(AnimalType type) {
         List<Animal> preys = animals.get(type);
         if (preys.isEmpty()) {
             return null;

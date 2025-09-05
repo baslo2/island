@@ -1,7 +1,9 @@
 package island;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,12 @@ public class Island {
         int y = map[0].length;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                map[i][j] = new IslandNode(i, j, this);
+                var node = new IslandNode(i, j, this);
+                var plant = new Plant();
+                for (int k = 0; k < 50; k++) {
+                    node.addPlant(plant);
+                }
+                map[i][j] = node;
             }
         }
     }
@@ -60,6 +67,19 @@ public class Island {
                 break;
             }
         }
+    }
+
+    public void initAnimals() {
+        var nodes = getAllNodes();
+        var animalTypes = Arrays.asList(AnimalType.values());
+        for (var node : nodes) {
+            animalTypes.forEach(e -> initAnimals(node, e));
+        }
+    }
+
+    private void initAnimals(IslandNode node, AnimalType type) {
+        int count = type.getMaxCount();
+        node.addAllAnimals(AnimalFactory.getNewAnimals(type, count), type);
     }
 
     private boolean addAnimalInRandomNode(Animal animal) {
@@ -93,7 +113,11 @@ public class Island {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 for (var e : AnimalType.values()) {
-                    animals.putIfAbsent(e, map[i][j].getAnimalsByType(e));
+                    if (null == animals.get(e)) {
+                        animals.putIfAbsent(e, new ArrayList<>(map[i][j].getAnimalsByType(e)));
+                    } else {
+                    animals.get(e).addAll(map[i][j].getAnimalsByType(e));
+                    }
                 }
             }
         }
@@ -110,6 +134,20 @@ public class Island {
             }
         }
         return plants;
+    }
+
+    public List<IslandNode> getAllNodes() {
+        List<IslandNode> nodes = new ArrayList<>();
+        int x = map.length;
+        int y = map[0].length;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                for (var e : AnimalType.values()) {
+                    nodes.add(map[i][j]);
+                }
+            }
+        }
+        return nodes;
     }
 
     public void newTack() {
