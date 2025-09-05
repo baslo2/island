@@ -1,6 +1,7 @@
 package island;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import island.task.AnimalLiveCycle;
 import island.task.PlantLiveCycle;
@@ -15,20 +16,22 @@ public class Main {
         island.init();
         island.initAnimals();
 
-        var sheldue = Executors.newScheduledThreadPool(2);
+        var sheduler = Executors.newScheduledThreadPool(2);
         var plant = new PlantLiveCycle(island);
         var animal = new AnimalLiveCycle(island);
         for (int i = 0; i < DAYS; i++) {
 
-            sheldue.execute(plant);
-            sheldue.execute(animal);
+            sheduler.submit(plant);
+            sheduler.submit(animal);
 
-            try {
-                Thread.sleep(10_000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while (!plant.isFinish() || !animal.isFinish()) {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        sheldue.shutdown();
+        sheduler.shutdown();
     }
 }

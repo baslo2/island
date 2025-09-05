@@ -11,6 +11,7 @@ public class AnimalLiveCycle implements Runnable {
 
     private final Island island;
     private final List<IslandNode> nodes;
+    private boolean isFinish;
 
     public AnimalLiveCycle(Island island) {
         this.island = island;
@@ -20,7 +21,7 @@ public class AnimalLiveCycle implements Runnable {
 
     @Override
     public void run() {
-
+        isFinish = false;
         var animals = island.getAllAnimals();
         animals.stream().forEach(Animal::eat);
         animals = island.getAllAnimals();
@@ -29,6 +30,11 @@ public class AnimalLiveCycle implements Runnable {
         island.newTack();
         IslandStatistic.cashEndDayStat(island);
         IslandStatistic.printDayStat();
+        isFinish = true;
+    }
+
+    public boolean isFinish() {
+        return isFinish;
     }
 
 }
