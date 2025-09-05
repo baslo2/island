@@ -27,26 +27,26 @@ HORSE|________________0/null
 MOUSE|________________0/null
 RABBIT|________________0/null
 SHEEP|________________0/null
-Plants|________________10/0""";
+Plants|________________200/null""";
 
     private static final String END_STAT = """
-            Object Type|________________startDay/EndDay
-            WOLF|________________1/2
-            ANACONDA|________________0/0
-            BEAR|________________0/0
-            EAGLE|________________0/0
-            FOX|________________0/0
-            BOAR|________________0/0
-            BUFFALO|________________0/0
-            CATERPILLAR|________________0/0
-            DEER|________________0/0
-            DUCK|________________0/0
-            GOAT|________________0/0
-            HORSE|________________0/0
-            MOUSE|________________0/0
-            RABBIT|________________0/1
-            SHEEP|________________0/0
-            Plants|________________10/10""";
+Object Type|________________startDay/EndDay
+WOLF|________________1/2
+ANACONDA|________________0/0
+BEAR|________________0/0
+EAGLE|________________0/0
+FOX|________________0/0
+BOAR|________________0/0
+BUFFALO|________________0/0
+CATERPILLAR|________________0/0
+DEER|________________0/0
+DUCK|________________0/0
+GOAT|________________0/0
+HORSE|________________0/0
+MOUSE|________________0/0
+RABBIT|________________0/1
+SHEEP|________________0/0
+Plants|________________200/200""";
 
     @Test
     void simpleStatTest(){
@@ -69,9 +69,6 @@ Plants|________________10/0""";
         island.init();
         var node = island.getIslandNode(0,0);
         node.addAnimal(new Wolf());
-        for(int i=0; i<10; i++) {
-            node.addPlant(new Plant());
-        }
         IslandStatistic.cashStartDayStat(island);
         Assertions.assertEquals(START_STAT, IslandStatistic.getDayStat());
 
