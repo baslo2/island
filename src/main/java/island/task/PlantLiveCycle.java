@@ -10,6 +10,7 @@ public class PlantLiveCycle implements Runnable {
 
     private final Island island;
     private final List<IslandNode> nodes;
+    private boolean isFinish;
 
     public PlantLiveCycle(Island island) {
         this.island = island;
@@ -18,9 +19,14 @@ public class PlantLiveCycle implements Runnable {
 
     @Override
     public void run() {
-        IslandStatistic.cashStartDayStatPlant(island);
+        isFinish = false;
+        IslandStatistic.cashStartDayStat(island);
         nodes.forEach(IslandNode::reproducePlants);
-        IslandStatistic.cashEndDayStatPlant(island);
+        isFinish = true;
+    }
+
+    public boolean isFinish() {
+        return isFinish;
     }
 
 }

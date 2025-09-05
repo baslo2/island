@@ -4,7 +4,6 @@ import java.util.List;
 
 import island.Island;
 import island.IslandNode;
-import island.Main;
 import island.model.animals.Animal;
 import island.utils.IslandStatistic;
 
@@ -12,6 +11,7 @@ public class AnimalLiveCycle implements Runnable {
 
     private final Island island;
     private final List<IslandNode> nodes;
+    private boolean isFinish;
 
     public AnimalLiveCycle(Island island) {
         this.island = island;
@@ -21,15 +21,20 @@ public class AnimalLiveCycle implements Runnable {
 
     @Override
     public void run() {
-        
-        IslandStatistic.cashStartDayStatAnimal(island);
+        isFinish = false;
         var animals = island.getAllAnimals();
         animals.stream().forEach(Animal::eat);
         animals = island.getAllAnimals();
         animals.stream().forEach(Animal::move);
         nodes.parallelStream().forEach(IslandNode::reproduceAnimals);
-        IslandStatistic.cashEndDayStatAnimal(island);
+        island.newTack();
+        IslandStatistic.cashEndDayStat(island);
         IslandStatistic.printDayStat();
+        isFinish = true;
+    }
+
+    public boolean isFinish() {
+        return isFinish;
     }
 
 }

@@ -3,7 +3,6 @@ package island;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class Island {
             for (int j = 0; j < y; j++) {
                 var node = new IslandNode(i, j, this);
                 var plant = new Plant();
-                for (int k = 0; k < 50; k++) {
+                for (int k = 0; k < 100; k++) {
                     node.addPlant(plant);
                 }
                 map[i][j] = node;
@@ -116,7 +115,7 @@ public class Island {
                     if (null == animals.get(e)) {
                         animals.putIfAbsent(e, new ArrayList<>(map[i][j].getAnimalsByType(e)));
                     } else {
-                    animals.get(e).addAll(map[i][j].getAnimalsByType(e));
+                        animals.get(e).addAll(map[i][j].getAnimalsByType(e));
                     }
                 }
             }

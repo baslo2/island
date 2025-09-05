@@ -13,6 +13,10 @@ public class IslandStatistic {
     private static final Map<AnimalType, Pair<Integer>> animalsStat = new HashMap<>();
     private static final Pair<Integer> plantsStat = new Pair<>();
     private static final String DELIMITR = "|________________";
+    private static final String START_AND_DELINMITR = "-----------------------------------------------------------------------------------------------";
+    private static final String COL_NAME = "Object Type";
+
+    private static int DAY = 1;
 
     public static void cashStartDayStat(Island island) {
         plantsStat.setFirst(island.getAllPlants().size());
@@ -61,13 +65,17 @@ public class IslandStatistic {
     }
 
     public static String getDayStat() {
-        StringBuilder sb = new StringBuilder("Object Type").append(DELIMITR).append("startDay/EndDay\n");
+        StringBuilder sb = new StringBuilder(START_AND_DELINMITR)
+                .append("\nday: ").append(DAY)
+                .append("\n").append(COL_NAME).append(DELIMITR).append("startDay/EndDay\n");
         for (var e : AnimalType.values()) {
             var value = animalsStat.get(e);
             sb.append(e).append(DELIMITR).append(value.getFirst()).append('/')
                     .append(value.getSecond()).append("\n");
         }
-        sb.append("Plants").append(DELIMITR).append(plantsStat.getFirst()).append('/').append(plantsStat.getSecond());
+        sb.append("Plants").append(DELIMITR).append(plantsStat.getFirst()).append('/').append(plantsStat.getSecond())
+                .append("\n").append(START_AND_DELINMITR);
+        DAY++;
         return sb.toString();
     }
 
