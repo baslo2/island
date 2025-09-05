@@ -18,9 +18,8 @@ public class PlantLiveCycle implements Runnable {
 
     @Override
     public void run() {
-        IslandStatistic.cashStartDayStatPlant(island);
+        IslandStatistic.cashStartDayStat(island);
         nodes.forEach(IslandNode::reproducePlants);
-        IslandStatistic.cashEndDayStatPlant(island);
     }
 
 }
